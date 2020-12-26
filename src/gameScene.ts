@@ -9,7 +9,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 export class GameScene extends Phaser.Scene {
   private ground = new Ground();
   private background = new Background();
-  private player = new Player();
+  public player = new Player();
   public cursors: Phaser.Types.Input.Keyboard.CursorKeys;
 
   constructor() {
@@ -21,7 +21,7 @@ export class GameScene extends Phaser.Scene {
     this.load.image('background', 'assets/background.png');
     // this.load.image('logo', 'assets/logo.png');
     this.load.spritesheet('bird', 'assets/bird.png', { frameWidth: 92, frameHeight: 64 });
-    this.load.image('ground', 'assets/ground.png');
+    this.load.spritesheet('ground', 'assets/ground.png', { frameWidth: 1, frameHeight: 128 });
     // this.load.image('pipe', 'assets/pipe.png');
     // this.load.image('restart', 'assets/restart.png');
     // this.load.image('score', 'assets/score.png');
@@ -38,6 +38,8 @@ export class GameScene extends Phaser.Scene {
     this.ground.create(this);
     this.player.create(this);
 
+    this.physics.add.collider(this.player.player, this.ground.ground);
+
     // this.setupGround();
   }
 
@@ -45,7 +47,6 @@ export class GameScene extends Phaser.Scene {
    *
    */
   public update (): void {
-    this.ground.update();
     this.player.update(this);
 
     // this.ground.tilePositionX++;

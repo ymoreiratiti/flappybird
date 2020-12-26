@@ -1,27 +1,31 @@
 import { gameConfig } from '../gameConfig';
+import { GameScene } from '../gameScene';
 
 const IMAGE_WIDTH = 37;
 export class Ground {
-  private ground: Phaser.GameObjects.TileSprite[] = [];
+  public ground: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody[] = [];
 
   /**
    *
    * @param scene
    */
-  public create (scene: Phaser.Scene): void {
+  public create (scene: GameScene): void {
+    scene.anims.create({
+      key: 'ground',
+      frames: scene.anims.generateFrameNumbers('ground', { start: 0, end: 36 }),
+      frameRate: 200,
+      repeat: -1,
+    });
+
     const Y = Number(gameConfig.height) - Math.ceil(IMAGE_WIDTH / 2);
 
-    for (let X = 0; X <= Math.ceil(Number(gameConfig.width) / IMAGE_WIDTH); X++) {
-      this.ground.push(scene.add.tileSprite(X * IMAGE_WIDTH, Y, 0, 0, 'ground'));
-    }
-  }
+    for (let X = 0; X <= gameConfig.width; X++) {
+      const ground = scene.physics.add.sprite(X, Y, 'ground');
+      ground.setImmovable(true);
+      ground.body.setAllowGravity(false);
 
-  /**
-   *
-   */
-  public update (): void {
-    this.ground.forEach((ground) => {
-      ground.tilePositionX += 2;
-    });
+      ground.anims.play({ key: 'ground', startFrame: (X + 1) % Number(scene.anims.get('ground').frames.length) }, true);
+      this.ground.push(ground);
+    }
   }
 }
