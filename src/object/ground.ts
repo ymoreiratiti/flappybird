@@ -1,10 +1,13 @@
 import { gameConfig } from '../gameConfig';
 
 const IMAGE_WIDTH = 37;
-const IMAGE_HEIGHT = 128;
 export class Ground {
   private ground: Phaser.GameObjects.TileSprite[] = [];
 
+  /**
+   *
+   * @param scene
+   */
   public create (scene: Phaser.Scene): void {
     const Y = Number(gameConfig.height) - Math.ceil(IMAGE_WIDTH / 2);
 
@@ -13,6 +16,9 @@ export class Ground {
     }
   }
 
+  /**
+   *
+   */
   public update (): void {
     this.ground.forEach((ground) => {
       ground.tilePositionX += 2;

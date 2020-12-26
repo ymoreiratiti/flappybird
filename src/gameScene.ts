@@ -1,4 +1,4 @@
-import { Background, Ground } from './object';
+import { Background, Ground, Player } from './object';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -9,6 +9,8 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 export class GameScene extends Phaser.Scene {
   private ground = new Ground();
   private background = new Background();
+  private player = new Player();
+  public cursors: Phaser.Types.Input.Keyboard.CursorKeys;
 
   constructor() {
     super(sceneConfig);
@@ -18,7 +20,7 @@ export class GameScene extends Phaser.Scene {
     console.log('PRELOAD');
     this.load.image('background', 'assets/background.png');
     // this.load.image('logo', 'assets/logo.png');
-    // this.load.image('bird', 'assets/bird.png');
+    this.load.spritesheet('bird', 'assets/bird.png', { frameWidth: 92, frameHeight: 64 });
     this.load.image('ground', 'assets/ground.png');
     // this.load.image('pipe', 'assets/pipe.png');
     // this.load.image('restart', 'assets/restart.png');
@@ -30,9 +32,11 @@ export class GameScene extends Phaser.Scene {
    */
   public create (): void {
     console.log('CREATE');
+    this.cursors = this.input.keyboard.createCursorKeys();
 
     this.background.create(this);
     this.ground.create(this);
+    this.player.create(this);
 
     // this.setupGround();
   }
@@ -42,7 +46,8 @@ export class GameScene extends Phaser.Scene {
    */
   public update (): void {
     this.ground.update();
-    this.background.update(this);
+    this.player.update(this);
+
     // this.ground.tilePositionX++;
     // this.player.setVelocity(0);
     // if (this.cursors.left.isDown) {
