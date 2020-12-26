@@ -1,4 +1,4 @@
-import { Ground } from './object/ground';
+import { Background, Ground } from './object';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -8,6 +8,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class GameScene extends Phaser.Scene {
   private ground = new Ground();
+  private background = new Background();
 
   constructor() {
     super(sceneConfig);
@@ -30,6 +31,7 @@ export class GameScene extends Phaser.Scene {
   public create (): void {
     console.log('CREATE');
 
+    this.background.create(this);
     this.ground.create(this);
 
     // this.setupGround();
@@ -40,6 +42,7 @@ export class GameScene extends Phaser.Scene {
    */
   public update (): void {
     this.ground.update();
+    this.background.update(this);
     // this.ground.tilePositionX++;
     // this.player.setVelocity(0);
     // if (this.cursors.left.isDown) {
