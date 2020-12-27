@@ -2,7 +2,7 @@ import { gameConfig } from '../gameConfig';
 import { GameScene } from '../gameScene';
 
 export class Score {
-  score: Phaser.GameObjects.Text;
+  public score: Phaser.GameObjects.Text;
 
   public create (scene: GameScene): void {
     this.score = scene.add
@@ -12,5 +12,9 @@ export class Score {
       .setOrigin(0.5, 0.5);
 
     this.score.setText('0');
+  }
+
+  public setScore (score: number) {
+    this.score.setText(score.toString());
   }
 }

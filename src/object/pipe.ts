@@ -38,6 +38,13 @@ export class Pipe {
         pipe.setVelocityX(0);
       });
     }
+
+    const score: number = this.pipe
+      .filter((pipe) => pipe.flipY)
+      .map((pipe) => pipe.x)
+      .filter((X: number) => X <= 0).length;
+
+    scene.score.setScore(score);
   }
 
   private setupPipe (pipe: Phaser.Types.Physics.Arcade.ImageWithDynamicBody, setFlipY: boolean) {

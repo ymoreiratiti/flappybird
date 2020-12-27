@@ -14,7 +14,7 @@ export class GameScene extends Phaser.Scene {
   public cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   public pipe = new Pipe();
   public gameOver = false;
-  private score = new Score();
+  public score = new Score();
 
   constructor() {
     super(sceneConfig);
