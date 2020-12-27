@@ -1,4 +1,4 @@
-import { Background, Ground, Player } from './object';
+import { Background, Ground, Pipe, Player } from './object';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -9,8 +9,10 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 export class GameScene extends Phaser.Scene {
   private ground = new Ground();
   private background = new Background();
-  public player = new Player();
+  private player = new Player();
   public cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+  public pipe = new Pipe();
+  public gameOver = false;
 
   constructor() {
     super(sceneConfig);
@@ -22,7 +24,7 @@ export class GameScene extends Phaser.Scene {
     // this.load.image('logo', 'assets/logo.png');
     this.load.spritesheet('bird', 'assets/bird.png', { frameWidth: 92, frameHeight: 64 });
     this.load.spritesheet('ground', 'assets/ground.png', { frameWidth: 1, frameHeight: 128 });
-    // this.load.image('pipe', 'assets/pipe.png');
+    this.load.image('pipe', 'assets/pipe.png');
     // this.load.image('restart', 'assets/restart.png');
     // this.load.image('score', 'assets/score.png');
   }
@@ -35,34 +37,28 @@ export class GameScene extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.background.create(this);
+    this.pipe.create(this);
     this.ground.create(this);
     this.player.create(this);
 
-    this.physics.add.collider(this.player.player, this.ground.ground);
-
-    // this.setupGround();
+    this.physics.add.collider(this.player.player, this.ground.ground, () => {
+      this.gameOver = true;
+    });
+    this.physics.add.collider(this.player.player, this.pipe.pipe, () => {
+      this.gameOver = true;
+    });
   }
 
   /**
    *
    */
   public update (): void {
-    this.player.update(this);
+    if (this.cursors.space.isDown && this.gameOver) {
+      this.gameOver = true;
+    }
 
-    // this.ground.tilePositionX++;
-    // this.player.setVelocity(0);
-    // if (this.cursors.left.isDown) {
-    //   this.player.setFlipX(false).setVelocityX(-125);
-    //   this.player.anims.play('mario_small_walk', true);
-    // }
-    // if (this.cursors.right.isDown) {
-    //   this.player.setFlipX(true).setVelocityX(125);
-    //   this.player.anims.play('mario_small_walk', true);
-    // }
-    // if (this.cursors.up.isDown) {
-    //   this.player.setVelocityY(-200);
-    // } else if (this.cursors.down.isDown) {
-    //   this.player.setVelocityY(200);
-    // }
+    this.player.update(this);
+    this.pipe.update(this);
+    this.ground.update(this);
   }
 }

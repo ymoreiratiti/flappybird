@@ -28,4 +28,12 @@ export class Ground {
       this.ground.push(ground);
     }
   }
+
+  public update (scene: GameScene): void {
+    if (scene.gameOver) {
+      this.ground.forEach((ground) => {
+        ground.anims.stop();
+      });
+    }
+  }
 }

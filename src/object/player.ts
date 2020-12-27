@@ -10,7 +10,7 @@ export class Player {
    * @param scene
    */
   public create (scene: GameScene): void {
-    this.player = scene.physics.add.sprite(100, 100, 'bird');
+    this.player = scene.physics.add.sprite(50, 100, 'bird');
     this.player.setCollideWorldBounds(true);
     this.player.setScale(0.5);
     this.player.anims.create({
@@ -26,6 +26,10 @@ export class Player {
    * @param scene
    */
   public update (scene: GameScene): void {
+    if (scene.gameOver) {
+      return undefined;
+    }
+
     if (this.player.angle <= 25) {
       this.player.angle += 2;
     }
