@@ -14,7 +14,10 @@ export class Score {
     this.score.setText('0');
   }
 
-  public setScore (score: number) {
+  public setScore (score: number): void {
+    if (score.toString() === this.score.text) return undefined;
+
+    if (Number(window.localStorage.record || 0) < score) window.localStorage.record = score;
     this.score.setText(score.toString());
   }
 }

@@ -1,7 +1,5 @@
 import { GameScene } from '../gameScene';
 
-const stop = 10;
-
 export class Player {
   public player: Phaser.Physics.Arcade.Sprite;
 
@@ -35,10 +33,14 @@ export class Player {
     }
 
     if (scene.cursors.space.isDown) {
-      this.player.setVelocityY(-500);
-      this.player.anims.play('jump', true);
-
-      this.player.setAngle(-25);
+      this.jump();
     }
+  }
+
+  private jump () {
+    this.player.setVelocityY(-500);
+    this.player.anims.play('jump', true);
+
+    this.player.setAngle(-25);
   }
 }
