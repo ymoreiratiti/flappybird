@@ -1,4 +1,5 @@
-import { Background, Ground, Pipe, Player } from './object';
+import { gameConfig } from './gameConfig';
+import { Background, Ground, Pipe, Player, Score } from './object';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -13,13 +14,13 @@ export class GameScene extends Phaser.Scene {
   public cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   public pipe = new Pipe();
   public gameOver = false;
+  private score = new Score();
 
   constructor() {
     super(sceneConfig);
   }
 
   public preload (): void {
-    console.log('PRELOAD');
     this.load.image('background', 'assets/background.png');
     // this.load.image('logo', 'assets/logo.png');
     this.load.spritesheet('bird', 'assets/bird.png', { frameWidth: 92, frameHeight: 64 });
@@ -40,6 +41,7 @@ export class GameScene extends Phaser.Scene {
     this.pipe.create(this);
     this.ground.create(this);
     this.player.create(this);
+    this.score.create(this);
 
     this.physics.add.collider(this.player.player, this.ground.ground, () => {
       this.gameOver = true;
@@ -53,10 +55,6 @@ export class GameScene extends Phaser.Scene {
    *
    */
   public update (): void {
-    if (this.cursors.space.isDown && this.gameOver) {
-      this.gameOver = true;
-    }
-
     this.player.update(this);
     this.pipe.update(this);
     this.ground.update(this);

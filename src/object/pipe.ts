@@ -3,6 +3,8 @@ import * as rando from 'random-number-in-range';
 import { gameConfig } from '../gameConfig';
 
 const GAP_SPACE = 100;
+const PIPE_START_X = 400;
+const PIPE_SPACE_BETWEEN = 200;
 
 export class Pipe {
   public pipe: Phaser.Types.Physics.Arcade.ImageWithDynamicBody[] = [];
@@ -14,8 +16,12 @@ export class Pipe {
   public create (scene: GameScene): void {
     for (let x = 1; x <= 200; x++) {
       const gap = rando(100, Number(gameConfig.height) - 400);
-      const pipeBottom = scene.physics.add.image(200 * x, gap + GAP_SPACE, 'pipe').setOrigin(0.5, 0);
-      const pipeTop = scene.physics.add.image(200 * x, gap - GAP_SPACE, 'pipe').setOrigin(0.5, 1);
+      const pipeBottom = scene.physics.add
+        .image(PIPE_START_X + PIPE_SPACE_BETWEEN * x, gap + GAP_SPACE, 'pipe')
+        .setOrigin(0.5, 0);
+      const pipeTop = scene.physics.add
+        .image(PIPE_START_X + PIPE_SPACE_BETWEEN * x, gap - GAP_SPACE, 'pipe')
+        .setOrigin(0.5, 1);
 
       this.setupPipe(pipeTop, true);
       this.setupPipe(pipeBottom, false);
